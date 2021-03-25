@@ -1,4 +1,7 @@
-# Algorytm Schrage:
+# Algorytm Schrage
+## Grupa:
+* Michał Maćkowiak
+* Michał Dołharz
 ## Pliki: 
 ### Lab 2
 * lab2_Schrage_klasy.py - algorytm Schrage dla problemu 1|ri, qi|Cmax zaimplementowany za pomocą klas przechowujących wartości nr, r, p, q, C
