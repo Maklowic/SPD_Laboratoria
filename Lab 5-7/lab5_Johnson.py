@@ -18,7 +18,7 @@ def argmin(p, N, M):
 def main():
     seed = int(input("Podaj seed: "))
     n = int(input("Podaj liczbę zadań: "))
-    #m = int(input("Podaj liczbę maszyn: "))
+    # m = int(input("Podaj liczbę maszyn: "))
 
     m = 2
     print("Liczba maszyn: 2")
@@ -40,7 +40,7 @@ def main():
             tmp.append(rng.nextInt(1, 29))
         p.append(tmp)
 
-    print("J: ", end='')
+    print("J:  ", end='')
     print(J)
     print("p:  ", end='')
     print(p)
@@ -59,11 +59,11 @@ def main():
     # tablica zadań
     N = []
     N = J[:]
-    print("N: ", end='')
+    print("N:  ", end='')
     print(N)
     # permutacja
 
-    #tmp = argmin(p, N, M)
+    # tmp = argmin(p, N, M)
     # print(tmp)
 
     while N:
@@ -78,8 +78,23 @@ def main():
         N.remove(j+1)
 
     print("Po algorytmie Johnsona")
-    print("pi: ")
+    print("pi: ", end='')
     print(pi)
+
+    # C wyglada tak: [[a, b], [a, b] ...] tylko a i b beda aktualizowane w for
+    a = p[pi[0]-1][0]
+    b = a + p[pi[0]-1][1]
+    C = [[a, b]]
+    for j in range(2, n+1):
+        a = C[j-2][0] + p[pi[j-1]-1][0]
+        b = max(C[j-2][1], a) + p[pi[j-1]-1][1]
+        tmp = [a, b]
+        C.append(tmp)
+    print("C:  ", end='')
+    print(C)
+
+    print("Cmax: ", end='')
+    print(C[n-1][1])
 
 
 main()
