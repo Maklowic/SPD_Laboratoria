@@ -1,4 +1,4 @@
-Sterowanie Procesami Dyskretnymi
+# Sterowanie Procesami Dyskretnymi
 # Labolatorium
 # Grupa 
 * Michał Maćkowiak
