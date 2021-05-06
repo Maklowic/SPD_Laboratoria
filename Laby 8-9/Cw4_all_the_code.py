@@ -70,6 +70,21 @@ def BruteForce(zad, _N, p, pi, d, w):
             F_min = F_inne
             pi_prim2 = bf_pi[:]
 
+#
+# procedura Greedy
+#
+def Greedy(d):
+    n = len(d)
+    pi = []
+    tmp = d[:]
+    tmp.sort()
+    while tmp:
+        for k in range(0, n):
+            if tmp[0] == d[k]:
+                pi.append(k+1)
+                tmp.remove(d[k])
+                if len(tmp) == 0:
+                    return pi
 
 
 #
@@ -123,6 +138,21 @@ def main():
     #
     #
 
+    
+    start_time = time.time()
+    
+    pi_greedy = Greedy(d)
+
+    tmp_time = time.time() - start_time
+    F = Calc_Fmin(p, pi_greedy, d, w)
+    print("!!!! po algorytmie Greedy")
+    print("pi: ", pi_greedy)
+    print("C: ", C_glob)
+    print("T: ", T_glob)
+    print("wT: ", wT_glob)
+    print("wiTi = F: ", F)
+    print("Czas działania: %.5s s" % tmp_time)
+
     start_time2 = time.time()
     for zad in N:
         bf_N = N[:]
@@ -146,6 +176,5 @@ def main():
     
     print("\n           Key to continue . . .")
     input()
-
-
+    
 main()

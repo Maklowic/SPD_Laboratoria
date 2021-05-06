@@ -2,13 +2,14 @@ from RandomNumberGenerator import RandomNumberGenerator
 import time
 
 #
-# Zmienne globalne
+# globalne zmienne
 #
 F_min = 999999999
 pi_prim2 = []
 T_glob = []
 C_glob = []
 wT_glob = []
+
 
 #
 # Obliczanie wiTi
@@ -42,34 +43,22 @@ def Calc_Fmin(p, pi, d, w):
     #print("return F: ", F)
     return F
 
-#
-# procedura Brute Force
-#
-def BruteForce(zad, _N, p, pi, d, w):
-    #global iteracje
-    #iteracje = iteracje+1
-    #print(iteracje)
-    #print("zad: ", zad)
-    bf_N = []
-    bf_N = _N[:]
-    bf_pi = []
-    bf_pi = pi[:]
-    global F_min
-    global pi_prim2
-        
-    bf_pi.append(zad)
-    bf_N.remove(zad)
 
-    for k in bf_N:
-        BruteForce(k, bf_N, p, bf_pi, d, w)
-    #print("pi ", bf_pi)
-    
-    if len(bf_pi) == len(p):
-        F_inne = Calc_Fmin(p, bf_pi, d, w)
-        if F_inne < F_min:
-            F_min = F_inne
-            pi_prim2 = bf_pi[:]
-
+#
+# procedura Greedy
+#
+def Greedy(d):
+    n = len(d)
+    pi = []
+    tmp = d[:]
+    tmp.sort()
+    while tmp:
+        for k in range(0, n):
+            if tmp[0] == d[k]:
+                pi.append(k+1)
+                tmp.remove(d[k])
+                if len(tmp) == 0:
+                    return pi
 
 
 #
@@ -123,29 +112,22 @@ def main():
     #
     #
 
-    start_time2 = time.time()
-    for zad in N:
-        bf_N = N[:]
-        BruteForce(zad, bf_N, p, pi, d, w)
     
-    tmp_time2 = time.time() - start_time2
+    start_time = time.time()
+    
+    pi_greedy = Greedy(d)
 
-    #pi_z_zajec = [2, 5, 1, 7, 4, 8, 3, 6]
-    #pi_z_zajec = [2, 5, 7, 3, 8, 6, 4, 1]
-    #pi_z_zajec = [1, 2, 3, 4, 5,6,7,8]
-
-    F = Calc_Fmin(p, pi_prim2, d, w)
-    print("!!!! po algorytmie Brute Force")
-    print("pi: ", pi_prim2)
+    tmp_time = time.time() - start_time
+    F = Calc_Fmin(p, pi_greedy, d, w)
+    print("!!!! po algorytmie Greedy")
+    print("pi: ", pi_greedy)
     print("C: ", C_glob)
     print("T: ", T_glob)
     print("wT: ", wT_glob)
-    print("F: ", F)
-    
-    print("Czas działania: %.5s s" % tmp_time2)
-    
+    print("wiTi = F: ", F)
+    print("Czas działania: %.5s s" % tmp_time)
+
     print("\n           Key to continue . . .")
     input()
-
-
+    
 main()
