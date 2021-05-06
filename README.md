@@ -1,5 +1,5 @@
 # Sterowanie Procesami Dyskretnymi
-# Labolatorium
+# Laboratorium
 # Grupa 
 * Michał Maćkowiak
 * Michał Dołharz
