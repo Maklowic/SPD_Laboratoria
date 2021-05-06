@@ -3,7 +3,7 @@
 * Michał Maćkowiak
 * Michał Dołharz
 # Prowadzący
-        mgr inż. Radosław Idzikowski
+* mgr inż. Radosław Idzikowski
 ## Pliki: 
 ### Cw 4 - problem 1||sum(wiTi)
         - Cw4_Brute_Force.py - implementacja algorytmu przeglądu zupełnego dla problemu 1||sum(wiTi)
