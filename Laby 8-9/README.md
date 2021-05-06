@@ -1,4 +1,4 @@
-# Labolatorium 4:
+# Laboratorium 4:
 # Grupa 
 * Michał Maćkowiak
 * Michał Dołharz
