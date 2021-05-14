@@ -1,4 +1,5 @@
-# Labolatorium 4 - jednomaszynowy problem z ważoną sumą opóźnień [ang. Total Weighted Tardiness] (1| |sum(wiTi))
+# Labolatorium 4 
+##### jednomaszynowy problem z ważoną sumą opóźnień [ang. Total Weighted Tardiness] (1| |sum(wiTi))
 
 ## Grupa 
     - Michał Maćkowiak
