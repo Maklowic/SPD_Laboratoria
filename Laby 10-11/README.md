@@ -1,5 +1,5 @@
-# Labolatorium 5 
-# wielomaszynowy premutacyjny problem przepływowy [ang. Permutation Flow Shop Problem] (Flow shop | | Cmax)
+# Labolatorium 5:
+##### wielomaszynowy premutacyjny problem przepływowy [ang. Permutation Flow Shop Problem] (Flow shop | | Cmax)
 
 ## Grupa 
     - Michał Maćkowiak
