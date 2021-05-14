@@ -1,4 +1,5 @@
-# Laboratorium 2 - jednomaszynowy problem z czasami dostępności oraz opuszczenia (1 |ri, qi| Cmax)
+# Laboratorium 2 
+##### jednomaszynowy problem z czasami dostępności oraz opuszczenia (1 |ri, qi| Cmax)
 
 ## Grupa
     - Michał Maćkowiak
