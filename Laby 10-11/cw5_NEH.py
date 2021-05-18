@@ -161,11 +161,14 @@ def NEH(N, M, p):
     
     W_inne = W[:]
     while W_inne:
+        # indeks najwiekszego W
         zad = argmax_W(W_inne, W)
         l = 1
+        # faza 1
         while l <= k:
-
+            # przypisywanie wartości na L miejsce
             pi_prim_inne = pi_prim[:]
+            # insert umieszcza na wybranej pozycji
             pi_prim_inne.insert(l-1, zad)
 
             pi_prim_inne_c = Calc_Cmax(p, pi_prim_inne, neh_M)
@@ -177,6 +180,7 @@ def NEH(N, M, p):
             pig_c = Calc_Cmax(p, pig, neh_M)
             pig_cmax = pig_c[len(pig)-1][m-1]
 
+            # Sprawdzenie które podsawienie będzie najlepsze
             if pi_prim_inne_cmax < pig_cmax:
                 pig = pi_prim_inne[:]
             l += 1
@@ -186,6 +190,7 @@ def NEH(N, M, p):
         pi_prim = pig[:]
         print("best: ", pi_prim)
         maxW = W[zad-1]
+        # usunięcie wstawionego zadania
         W_inne.remove(maxW)
         k += 1
     return pi_prim
@@ -193,8 +198,6 @@ def NEH(N, M, p):
 #
 # main
 #
-
-
 def main():
     seed = int(input("Podaj seed: "))
     n = int(input("Podaj liczbę zadań: "))
