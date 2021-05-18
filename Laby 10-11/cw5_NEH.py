@@ -1,14 +1,10 @@
 from RandomNumberGenerator import RandomNumberGenerator
 import math
-UB = 99999
-
-pi_prim = []
+import time
 
 #
 # indeksy najmniejszej wartości w tablicy p[][]
 #
-
-
 def argmin(p, N, M):
     tmp = 10000
     tmp_j = -1
@@ -24,18 +20,23 @@ def argmin(p, N, M):
 
 
 #
-# indeksy najwiekszej wartości w tablicy W
+# Indeks największej wartości w tab. W_inne w zapisie tab. W
+# Problem:
+#   usuwanie bezpośrednie z tablicy W powoduje zmniejszenie tablicy
+#   przez co indeks nie będzie n tylko mniejszy, bo tablica się 
+#   zmniejsza z każdym wykonaniem
 #
-def argmax(W):
-    tmp = 0
+def argmax_W(W_inne, W):
     tmp_j = -1
 
     n = len(W)
 
+    # max aktualnej tablicy W
+    max_W_inne = max(W_inne)
+
     for j in range(1, n+1):
-        if W[j-1] > tmp:
-            tmp = W[j-1]
-            tmp_j = j-1
+        if W[j-1] == max_W_inne:
+            tmp_j = j
     return tmp_j
 
 
@@ -124,85 +125,9 @@ def Johnson(_N, M, p):
 
 
 #
-# liczenie granicy
-#
-def Bound(N, M, p, pi):
-    m = len(M)
-    LEN_PI = len(pi)
-    suma_p = 0
-    # print("LEN PI:", LEN_PI)
-    # print("to pi jest w bound:", pi)
-
-    C = Calc_Cmax(p, pi, M)
-    Cmx = C[LEN_PI-1][m-1]
-
-    for idx in N:
-        suma_p += p[idx-1][m-1]
-
-    LB = Cmx + suma_p
-    # print("LB = ", LB)
-    return LB
-
-#
-# procedura Branch and Bound
-#
-
-
-def BnB(zad, _N, M, p, pi):
-    global UB
-    bnb_pi = []
-    bnb_pi = pi[:]
-    bnb_N = _N[:]
-    global pi_prim
-    Cmax = 0
-
-    bnb_pi.append(zad)
-    bnb_N.remove(zad)
-    if bnb_N:
-        LB = Bound(bnb_N, M, p, bnb_pi)
-        if LB <= UB:
-            for k in bnb_N:
-                BnB(k, bnb_N, M, p, bnb_pi)
-    else:
-        C = Calc_Cmax(p, bnb_pi, M)
-
-        Cmax = C[len(bnb_pi)-1][len(M)-1]
-        if Cmax <= UB:
-            UB = Cmax
-            pi_prim = bnb_pi[:]
-    # return pi_prim
-
-
-#
-# procedura Brute Force
-#
-def BruteForce(zad, _N, M, p, pi):
-    global UB
-    bf_pi = []
-    bf_pi = pi[:]
-    bf_N = _N[:]
-
-    global pi_prim2
-
-    bf_pi.append(zad)
-    bf_N.remove(zad)
-
-    for k in bf_N:
-        BruteForce(k, bf_N, M, p, bf_pi)
-
-    C = Calc_Cmax(p, bf_pi, M)
-    Cmax = C[len(bf_pi)-1][len(M)-1]
-    if Cmax <= UB:
-        UB = Cmax
-        pi_prim2 = bf_pi[:]
-    # return pi_prim
-
-
-#
 # procedura NEH
 #
-def NEH(N, M, p, pi):
-    neh_pi = pi[:]
+def NEH(N, M, p):
     neh_N = N[:]
     neh_M = M[:]
 
@@ -210,13 +135,11 @@ def NEH(N, M, p, pi):
     m = len(neh_M)
 
     pig = []
-    global pi_prim
+    pi_prim = []
     pi_prim_inne = []
 
     k = 1
 
-    #m = len(M)
-    print("p ", p)
     W = []
 
     for j in neh_N:
@@ -224,16 +147,26 @@ def NEH(N, M, p, pi):
         for m in neh_M:
             w += p[j-1][m-1]
         W.append(w)
-        print("W ", W)
+    print("W: ", W)
 
-    while W:
-        zad = argmax(W)
-
+    W_inne = W[:]
+    kolej_W = []
+    while W_inne:
+        zad = argmax_W(W_inne, W)
+        kolej_W.append(zad)
+        maxW = W[zad-1]
+        W_inne.remove(maxW)
+    print(kolej_W)
+    print("")
+    
+    W_inne = W[:]
+    while W_inne:
+        zad = argmax_W(W_inne, W)
         l = 1
         while l <= k:
 
             pi_prim_inne = pi_prim[:]
-            pi_prim_inne.insert(l, zad)
+            pi_prim_inne.insert(l-1, zad)
 
             pi_prim_inne_c = Calc_Cmax(p, pi_prim_inne, neh_M)
             pi_prim_inne_cmax = pi_prim_inne_c[len(pi_prim_inne)-1][m-1]
@@ -247,11 +180,15 @@ def NEH(N, M, p, pi):
             if pi_prim_inne_cmax < pig_cmax:
                 pig = pi_prim_inne[:]
             l += 1
+            print(pi_prim_inne)
+            print(pi_prim_inne_c[len(pi_prim_inne)-1][m-1])
 
         pi_prim = pig[:]
-        maxW = W[zad]
-        W.remove(maxW)
+        print("best: ", pi_prim)
+        maxW = W[zad-1]
+        W_inne.remove(maxW)
         k += 1
+    return pi_prim
 
 #
 # main
@@ -288,81 +225,50 @@ def main():
     # tablica zadań
     N = []
     N = J[:]
-    # print(N)
-    # print("N:  ", end='')
-    # print(N)
 
     # tablica maszyn
     M = []
     for m in machines:
         M.append(m)
-    # print("M: ", end='')
-    # print(M)
+    #
+    #  koniec generowania instancji
+    #
 
     #
+    #  
     #
-    #
-    global UB
-    global pi_prim
-    global pi_prim2
     Johnson_pi = []
+    start_time = time.time()
+
     Johnson_pi = Johnson(N, M, p)
+    tmp_time = time.time() - start_time
+
     C_john = Calc_Cmax(p, Johnson_pi, M)
-    UB = C_john[n-1][m-1]
 
     print("C:  ", end='')
     print(C_john)
 
     print("Cmax: ", end='')
     print(C_john[n-1][m-1])
-    # print("Ub: ", UB)
-    # koniec generowania instancji
-    #
-    #
+    print("Czas działania: %.5s s" % tmp_time)
 
-    # permutacja po algorytmie Johnsona
-    # pi = Johnson(N, M, p, pi)
-
-    '''for zad in N:
-        bnb_N = N[:]
-        BnB(zad, bnb_N, M, p, pi)
-
-    print("Po algorytmie BnB")
-    print("pi: ", end='')
-    print(pi_prim)
-
-    C = Calc_Cmax(p, pi_prim, M)
-    print("C:  ", end='')
-    print(C)
-
-    print("Cmax: ", end='')
-    print(C[n-1][m-1])
-
-    for zad in N:
-        bnb_N = N[:]
-        BruteForce(zad, bnb_N, M, p, pi)
-
-    print("Po algorytmie BF")
-    print("pi: ", end='')
-    print(pi_prim)
-
-    C = Calc_Cmax(p, pi_prim, M)
-    print("C:  ", end='')
-    print(C)
-    print("Cmax: ", end='')
-    print(C[n-1][m-1])'''
-
-    NEH(N, M, p, pi)
+    NEH_pi = []
+    start_time2 = time.time()
+    NEH_pi = NEH(N, M, p)
+    tmp_time2 = time.time() - start_time2
 
     print("Po algorytmie NEH")
     print("pi: ", end='')
-    print(pi_prim)
+    print(NEH_pi)
 
-    C = Calc_Cmax(p, pi_prim, M)
+    NEH_C = Calc_Cmax(p, NEH_pi, M)
     print("C:  ", end='')
-    print(C)
+    print(NEH_C)
     print("Cmax: ", end='')
-    print(C[n-1][m-1])
+    print(NEH_C[n-1][m-1])
+    print("Czas działania: %.5s s" % tmp_time2)
 
+    print("\n           Key to continue . . .")
+    input()
 
 main()
