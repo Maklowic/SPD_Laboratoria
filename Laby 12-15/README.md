@@ -1,5 +1,5 @@
 # Labolatorium 6
-##### Algorytmy metaheurystyczne dla problemu FP | | Cmax
+##### Algorytmy metaheurystyczne dla problemu FP | | Cmax:
 ###### Symulowane Wyzarzanie (Simulated Annealing),
 ###### Przeszukiwanie z Zabronieniami (Tabue Search).
 
