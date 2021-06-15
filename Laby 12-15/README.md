@@ -16,4 +16,4 @@
 ### Inne
         - RandomNumberGenerator.py - generator liczb losowych,
 
-        - spdl6.pdf - instrukcja do ćwiczenia 5.
+        - spdl6.pdf - instrukcja do ćwiczenia 6.
