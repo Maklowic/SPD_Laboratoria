@@ -16,9 +16,9 @@
 
         - Cw6_Tabu.py - algorytm Przeszukiwania z Zabronieniami dla problemu FP||Cmax,
 
-        - Cw6_AlgMeta.py - wszystkie napisane Algorytmy Metaheurystyczne z tego ćwiczenia dla problemu FP||Cmax w jednym pliku.
+        - Cw6_AlgMeta.py - wszystkie napisane Algorytmy Metaheurystyczne z tego ćwiczenia dla problemu FP||Cmax w jednym pliku,
 
-        - Cw6_inne.py - wszystkie inne napisane algorytmy dla problemuy FP||Cmax dla porównania wyników
+        - Cw6_inne.py - wszystkie inne napisane algorytmy dla problemuy FP||Cmax dla porównania wyników.
 ### Inne
         - RandomNumberGenerator.py - generator liczb losowych,
 
