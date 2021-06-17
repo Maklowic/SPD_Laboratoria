@@ -441,18 +441,18 @@ def disp_all(liczba_zadan, liczba_maszyn, tablica_p, tablica_N, tablica_M):
     print("       Czas działania: %.5s s" % tmp_time)
 
     # BnB
-    ''' UB = C_john[disp_n-1][disp_m-1]
+    UB = C_john[disp_n-1][disp_m-1]
     start_time = time.time()
     for zad in disp_N:
         bnb_N = disp_N[:]
         BnB(zad, bnb_N, disp_M, disp_p, disp_pi)
     tmp_time = time.time() - start_time 
     C = Calc_Cmax(disp_p, pi_prim, disp_M)
-    print("BnB       pi: ", end ='')
+    print("BnB           pi: ", end ='')
     print(pi_prim, end='')
     print("       Cmax: ", end='')
     print(C[disp_n-1][disp_m-1], end='')
-    print("       Czas działania: %.5s s" % tmp_time)'''
+    print("       Czas działania: %.5s s" % tmp_time)
 
     # NEH
     NEH_pi = []

@@ -6,16 +6,15 @@ from random import random
 from cw6_inne import *
 
 # 
-# Funkcja do zmiany pozycji dwóch elementów tablicy
+# Funkcja do zmiany pozycji dwoch elementow tablicy
 #
 def swap(tablica, pos1, pos2):
     tablica[pos1], tablica[pos2] = tablica[pos2], tablica[pos1]
     return tablica
 
-
 #
-# Funkcja do obliczania prawdopodobieństwa akceptacji w algorytmie
-# symulowanego wyżarzania
+# Funkcja do obliczania prawdopodobienstwa akceptacji w algorytmie
+# symulowanego wyzarzania
 #
 #       p = e^( delta_Cmax / T ), gdzie delta_Cmax = Cmax(pi) - Cmax(new_pi)
 def Calc_prob(Cmax, Cmax_new, T):
@@ -23,10 +22,11 @@ def Calc_prob(Cmax, Cmax_new, T):
     return prob
 
 
+
 #
 # Funkcja do obliczania obniżonej temperatury
 #
-#       Wykorzystane obniżanie temperatury to logarytmiczne
+#       Wykorzystane obnizanie temperatury to logarytmiczne
 #       T' = T / ln(it+1), gdzie it - nr iteracji algorytmu
 def ReduceTemperature(T, it):
     red_T = (T / math.log(it + 1))
@@ -44,7 +44,7 @@ def simuAnnealing(liczba_zadan, liczba_maszyn, tablica_p, tablica_N, tablica_M, 
     sa_N = tablica_N[:]
     sa_M = tablica_M[:]
     sa_T = temperatura
-    # Jaką ustawić temperature końcową?
+    # Jaka ustawic temperature koncowa?
     #T_end = sa_T - 30
     T_end = temp_koncowa
     sa_L = il_iteracji
@@ -52,16 +52,13 @@ def simuAnnealing(liczba_zadan, liczba_maszyn, tablica_p, tablica_N, tablica_M, 
     sa_final_pi = []
     sa_prob = 999999
 
-    global glob_seed
-    sa_rng = RandomNumberGenerator(glob_seed)
-
     # wstepne naszykowanie permutacji jako permutacja naturalna
     for problem in range(1, sa_n+1):
         sa_pi.append(problem)
 
         sa_final_pi.append(problem)
 
-    # prawdopodobieństwo akceptacji
+    # prawdopodobienstwo akceptacji
     # p = e^( delta_Cmax / T ), gdzie delta_Cmax = Cmax(pi) - Cmax(new_pi)
 
     # Wykorzystane obniżanie temperatury to logarytmiczne
@@ -79,25 +76,25 @@ def simuAnnealing(liczba_zadan, liczba_maszyn, tablica_p, tablica_N, tablica_M, 
             sa_pi_C = Calc_Cmax(sa_p, sa_pi, sa_M)
             sa_pi_new_C = Calc_Cmax(sa_p, sa_pi_new, sa_M)
 
-            # sprawdzamy czy po wykonaniu swap Cmax się zwiększył:
+            # sprawdzamy czy po wykonaniu swap Cmax się zwiekszyl:
             #
-            # jeżeli tak to pi jest podstawiane zależnie od proawdopodobieństwa
+            # jezeli tak to pi jest podstawiane zależnie od prawdopodobienstwa
             if sa_pi_new_C[sa_n-1][sa_m-1] > sa_pi_C[sa_n-1][sa_m-1]:
                 # wybranie losowej wartości r
                 sa_r = random()
-                # obliczenie prawdopodobieństwa zamiany
+                # obliczenie prawdopodobienstwa zamiany
                 sa_prob = Calc_prob(sa_pi_C[sa_n-1][sa_m-1], sa_pi_new_C[sa_n-1][sa_m-1], sa_T)
-                # jeżeli r jest większe, równe proawdopodobieństwu podstawiamy pi_new do pi
+                # jeżeli r jest większe, równe prawdopodobienstwu podstawiamy pi_new do pi
                 if sa_r >= sa_prob:
                     sa_pi_new = sa_pi[:]
     
             sa_pi = sa_pi_new[:]
 
             sa_final_pi_C = Calc_Cmax(sa_p, sa_final_pi, sa_M)
-            # jeżeli Cmax zmalał po prostu podstawiamy
+            # jezeli Cmax zmalal po prostu podstawiamy
             if sa_pi_C[sa_n-1][sa_m-1] < sa_final_pi_C[sa_n-1][sa_m-1]:
                 sa_final_pi = sa_pi[:]
-                
+        # Obnizamy temperature
         sa_T = ReduceTemperature(sa_T, sa_L)
     return sa_final_pi
 
@@ -105,7 +102,6 @@ def simuAnnealing(liczba_zadan, liczba_maszyn, tablica_p, tablica_N, tablica_M, 
 #
 # main
 #
-
 
 def main():
     seed = int(input("Podaj seed: "))
