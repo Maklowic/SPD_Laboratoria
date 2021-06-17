@@ -69,6 +69,10 @@ def simuAnnealing(liczba_zadan, liczba_maszyn, tablica_p, tablica_N, tablica_M, 
             # wybieram losowe inty z przedziału 1, n
             sa_i = randint(1, sa_n)
             sa_j = randint(1, sa_n)
+            # upewnienie sie ze wartosci i, j sa rozne
+            while sa_j == sa_i:
+                sa_j = randint(1, sa_n)
+            
             sa_pi_new = sa_pi[:]
             # wykonuje losowy ruch: swap
             sa_pi_new = swap(sa_pi_new, sa_i - 1, sa_j - 1)
@@ -142,11 +146,11 @@ def main():
     #  koniec generowania instancji
     #
 
-    disp_all(n, m, p, N, M)
+    disp_all(n, m, p, N, M)=
 
     main_sa_pi = []
     main_T0 = 500
-    main_Tend = 25
+    main_Tend = 0.1
     main_it = 50
 
     start_time = time.time()
