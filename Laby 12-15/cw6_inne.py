@@ -10,6 +10,8 @@ pi_prim2 = []
 #
 # Obliczanie Cmax
 #
+
+
 def Calc_Cmax(p, pi, M):
     n = len(pi)
     m = len(M)
@@ -40,6 +42,8 @@ def Calc_Cmax(p, pi, M):
 #
 # indeksy najmniejszej wartości w tablicy p[][]
 #
+
+
 def argmin(p, N, M):
     tmp = 10000
     tmp_j = -1
@@ -58,7 +62,7 @@ def argmin(p, N, M):
 # Indeks największej wartości w tab. W_inne w zapisie tab. W
 # Problem:
 #   usuwanie bezpośrednie z tablicy W powoduje zmniejszenie tablicy
-#   przez co indeks nie będzie n tylko mniejszy, bo tablica się 
+#   przez co indeks nie będzie n tylko mniejszy, bo tablica się
 #   zmniejsza z każdym wykonaniem
 #
 def argmax_W(W_inne, W):
@@ -77,6 +81,8 @@ def argmax_W(W_inne, W):
 #
 # procedura Johnsona
 #
+
+
 def Johnson(_N, M, p):
     N = _N[:]
     n = len(N)
@@ -124,6 +130,8 @@ def Johnson(_N, M, p):
 #
 # Ścieżka krytyczna
 #
+
+
 def Crit_patch(p, pi, C, M):
     n = len(pi)
     m = len(M)
@@ -134,7 +142,7 @@ def Crit_patch(p, pi, C, M):
     idx_m = 0
 
     path_len = n + m - 1
-    
+
     #print("C: ",C)
     CP = C[idx_p][idx_m]
     i = 1
@@ -157,7 +165,7 @@ def Crit_patch(p, pi, C, M):
                 tmp_pmax = p[idx_p][idx_m]
                 pmax_p = idx_p
                 pmax_m = idx_m
-        
+
         elif(idx_p == n-1):
             # print("idx_p ", idx_p)
             # print("idx_m ", idx_m)
@@ -171,28 +179,28 @@ def Crit_patch(p, pi, C, M):
         else:
             #print("idx_p ", idx_p)
             #print("idx_m ", idx_m)
-            #print("")
+            # print("")
             if C[idx_p + 1][idx_m] > C[idx_p][idx_m + 1]:
                 idx_p += 1
                 if tmp_pmax > p[idx_p][idx_m]:
                     tmp_pmax = p[idx_p][idx_m]
                     pmax_p = idx_p
                     pmax_m = idx_m
-            
+
             else:
                 idx_m += 1
                 if tmp_pmax < p[idx_p][idx_m]:
                     tmp_pmax = p[idx_p][idx_m]
                     pmax_p = idx_p
                     pmax_m = idx_m
-        
-        i+=1
+
+        i += 1
 
     return [pmax_p, pmax_m]
 
 
 #
-# Faza II alg. NEH - 
+# Faza II alg. NEH -
 # Zadanie zawierajace najdłuzsza operacje na sciezce krytycznej.
 #
 def Phase2_crit_path(p, pi, M):
@@ -227,7 +235,7 @@ def Phase2_crit_path(p, pi, M):
 
 
 #
-# Faza II alg. NEH. - 
+# Faza II alg. NEH. -
 # Zadanie, którego usuniecie spowoduje najwieksze zmniejszenie wartosci Cmax
 #
 def Phase2_Cmax(p, pig, zad, neh_M):
@@ -274,7 +282,6 @@ def Phase2_Cmax(p, pig, zad, neh_M):
     return pig_inne
 
 
-
 #
 # procedura NEH
 #
@@ -306,7 +313,7 @@ def NEH(N, M, p, which):
         kolej_W.append(zad)
         maxW = W[zad-1]
         W_inne.remove(maxW)
-    
+
     W_inne = W[:]
     while W_inne:
         # indeks najwiekszego W
@@ -334,11 +341,11 @@ def NEH(N, M, p, which):
             l += 1
             # print(pi_prim_inne)
             # print(pi_prim_inne_c[len(pi_prim_inne)-1][m-1])
-        #faza 2
+        # faza 2
         if (which == 1):
             if(len(pig) != 1):
                 pig = Phase2_crit_path(p, pig, M)
-         
+
         elif (which == 2):
             if(len(pig) != 1):
                 pig = Phase2_Cmax(p, pig, zad, neh_M)
@@ -355,11 +362,13 @@ def NEH(N, M, p, which):
 #
 # liczenie granicy
 #
+
+
 def Bound(N, M, p, pi):
     m = len(M)
     LEN_PI = len(pi)
     suma_p = 0
-    #print("LEN PI:", LEN_PI) 
+    #print("LEN PI:", LEN_PI)
     #print("to pi jest w bound:", pi)
 
     C = Calc_Cmax(p, pi, M)
@@ -375,14 +384,16 @@ def Bound(N, M, p, pi):
 #
 # procedura Branch and Bound
 #
+
+
 def BnB(zad, _N, M, p, pi):
     global UB
     bnb_pi = []
     bnb_pi = pi[:]
     bnb_N = _N[:]
     global pi_prim
-    Cmax = 0 
-    
+    Cmax = 0
+
     bnb_pi.append(zad)
     bnb_N.remove(zad)
     if bnb_N:
@@ -397,11 +408,13 @@ def BnB(zad, _N, M, p, pi):
         if Cmax <= UB:
             UB = Cmax
             pi_prim = bnb_pi[:]
-    #return pi_prim
+    # return pi_prim
 
 #
 # display all
 #
+
+
 def disp_all(liczba_zadan, liczba_maszyn, tablica_p, tablica_N, tablica_M):
     disp_n = liczba_zadan
     disp_m = liczba_maszyn
@@ -410,7 +423,9 @@ def disp_all(liczba_zadan, liczba_maszyn, tablica_p, tablica_N, tablica_M):
     disp_M = tablica_M[:]
     disp_pi = []
 
-    # Johnson  
+    global UB
+
+    # Johnson
     Johnson_pi = []
     start_time = time.time()
 
@@ -419,26 +434,25 @@ def disp_all(liczba_zadan, liczba_maszyn, tablica_p, tablica_N, tablica_M):
 
     C_john = Calc_Cmax(disp_p, Johnson_pi, disp_M)
 
-    print("Johnson   pi: ", end ='')
+    print("Johnson       pi: ", end='')
     print(Johnson_pi, end='')
     print("       Cmax: ", end='')
     print(C_john[disp_n-1][disp_m-1], end='')
     print("       Czas działania: %.5s s" % tmp_time)
 
-
     # BnB
+    ''' UB = C_john[disp_n-1][disp_m-1]
     start_time = time.time()
     for zad in disp_N:
         bnb_N = disp_N[:]
         BnB(zad, bnb_N, disp_M, disp_p, disp_pi)
     tmp_time = time.time() - start_time 
-
     C = Calc_Cmax(disp_p, pi_prim, disp_M)
     print("BnB       pi: ", end ='')
     print(pi_prim, end='')
     print("       Cmax: ", end='')
     print(C[disp_n-1][disp_m-1], end='')
-    print("       Czas działania: %.5s s" % tmp_time)
+    print("       Czas działania: %.5s s" % tmp_time)'''
 
     # NEH
     NEH_pi = []
@@ -447,7 +461,7 @@ def disp_all(liczba_zadan, liczba_maszyn, tablica_p, tablica_N, tablica_M):
     tmp_time = time.time() - start_time
 
     NEH_C = Calc_Cmax(disp_p, NEH_pi, disp_M)
-    print("NEH       pi: ", end ='')
+    print("NEH           pi: ", end='')
     print(NEH_pi, end='')
     print("       Cmax: ", end='')
     print(NEH_C[disp_n-1][disp_m-1], end='')
@@ -460,7 +474,7 @@ def disp_all(liczba_zadan, liczba_maszyn, tablica_p, tablica_N, tablica_M):
     tmp_time = time.time() - start_time
     NEH_C = Calc_Cmax(disp_p, NEH_pi, disp_M)
 
-    print("NEH+ 1    pi: ", end ='')
+    print("NEH+ 1        pi: ", end='')
     print(NEH_pi, end='')
     print("       Cmax: ", end='')
     print(NEH_C[disp_n-1][disp_m-1], end='')
@@ -472,10 +486,9 @@ def disp_all(liczba_zadan, liczba_maszyn, tablica_p, tablica_N, tablica_M):
     NEH_pi = NEH(disp_N, disp_M, disp_p, 2)
     tmp_time = time.time() - start_time
     NEH_C = Calc_Cmax(disp_p, NEH_pi, disp_M)
-    
-    print("NEH+ 2    pi: ", end ='')
+
+    print("NEH+ 2        pi: ", end='')
     print(NEH_pi, end='')
     print("       Cmax: ", end='')
     print(NEH_C[disp_n-1][disp_m-1], end='')
     print("       Czas działania: %.5s s" % tmp_time)
-
